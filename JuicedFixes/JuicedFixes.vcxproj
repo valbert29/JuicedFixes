@@ -73,6 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <TargetExt>.asi</TargetExt>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IncludePath>$(SolutionDir)\3rdparty\injector\include;$(SolutionDir)\3rdparty\IniReader;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -179,6 +180,7 @@
     <ClInclude Include="controller.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="settings.h" />
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -64,6 +64,37 @@ void FixVirtualMemory()
 	injector::WriteMemoryRaw(0x0059BE40, memFix, sizeof(memFix), true);
 }
 
+// Обход ACCESS_VIOLATION на завершении командной гонки: при edx==0 / ecx==0 / eax==0 пропускаем виртуальный вызов.
+__declspec(naked) void TeamRaceEndCrashHook()
+{
+	__asm
+	{
+		test edx, edx
+		jz skip_all
+		mov ecx, dword ptr [edx+20h]
+		test ecx, ecx
+		jz skip_all
+		mov eax, dword ptr [ecx]
+		test eax, eax
+		jz skip_all
+		push ebp
+		call dword ptr [eax+10h]
+	skip_all:
+		push 00450B69h
+		ret
+	}
+}
+
+// Устанавливает JMP на хук (только x86). RVA жёстко задан под Juiced.exe с базой 0x00400000; на других билдах возможен краш или порча кода.
+void MaybeApplyTeamRaceEndCrashPatch()
+{
+#if !defined(_M_IX86)
+	return;
+#else
+	injector::MakeJMP(0x00450B60u, injector::raw_ptr(TeamRaceEndCrashHook), true);
+#endif
+}
+
 extern "C" void /*__declspec(dllexport)*/ __cdecl SetControlType(char* fmt, int i)
 {
 	__asm push eax
@@ -261,6 +292,7 @@ int WINAPI DllMain(HMODULE hInstance, DWORD reason, LPVOID lpReserved)
 		controlType = ControlType::Menu;
 		if(PatchCalendarCrash) FixCrashOnCalendar();
 		if(PatchVirtualMemory && version == 0) FixVirtualMemory();
+		MaybeApplyTeamRaceEndCrashPatch();
 
 		if (PatchInput)
 		{

@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "JuicedFixes: сборка Release x86",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\build.ps1"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      }
+    },
+    {
+      "label": "git: подмодули (injector, IniReader)",
+      "type": "shell",
+      "command": "git",
+      "args": ["submodule", "update", "--init", "--recursive"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Открыть загрузку MSVC Build Tools",
+      "type": "shell",
+      "command": "cmd",
+      "args": ["/c", "start", "", "https://visualstudio.microsoft.com/visual-cpp-build-tools/"],
+      "problemMatcher": []
+    }
+  ]
+}

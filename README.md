@@ -8,7 +8,7 @@ The following had been fixed:
   * Proper XInput gamepad support
 
 ## Instalation
-Just drag and drop (or copy and paste) the `dinput8.dll` and `scripts` folder into Juiced main folder. You can configure the fixes by editing `fixes.ini` inside `scripts` folder. 
+Use an **ASI loader** that installs as `dinput8.dll` in the game folder (for example [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader)). Copy **`JuicedFixes.asi`** and the **`scripts`** folder into the Juiced main folder next to `Juiced.exe`. Configure fixes by editing `fixes.ini` inside the `scripts` folder. Do not replace the loader’s `dinput8.dll` with this project’s output: the mod is only the `.asi` plugin.
 
 ## XInput support
 Because of how the game works, patching input required rewriting it from scratch, so be warned that keyboard **won't work** if you patch the input.
